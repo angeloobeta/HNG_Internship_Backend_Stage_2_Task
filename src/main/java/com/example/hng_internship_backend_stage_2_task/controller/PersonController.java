@@ -30,15 +30,15 @@ public class PersonController {
 if(personService.findPersonByName(person) == null){
     // If the name doesn't exist save it to the database
     Person createdPerson = personRepository.save(person);
-    createdPerson.getId();
 } else if(personService.findPersonByName(person).getName().equals(person.getName())) {
            throw new PersonErrorException("Name already exits");}
+
         ApiResponse response = new ApiResponse();
         response.setMessage("User created successfully");
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setTime(LocalDateTime.now());
 //        person = personRepository.findById(id).orElse(null);
-//        response.setUserId(createdPerson.getId());
+        response.setUserId(personService.findPersonByName(person).getId());
 
 
 
