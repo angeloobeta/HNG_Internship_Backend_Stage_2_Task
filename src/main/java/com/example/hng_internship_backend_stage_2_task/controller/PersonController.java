@@ -45,9 +45,9 @@ if(personService.findPersonByName(person) == null){
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     };
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getPersonById(@PathVariable long id) throws PersonErrorException {
-        Person person = personRepository.findById(id).orElse(null);
+    @GetMapping("/{user_id}")
+    public ResponseEntity<?> getPersonById(@PathVariable long user_id) throws PersonErrorException {
+        Person person = personRepository.findById(user_id).orElse(null);
 
         if(person != null){
             return ResponseEntity.ok(person);
@@ -62,10 +62,10 @@ if(personService.findPersonByName(person) == null){
         }
     }
 
-    @PutMapping("/{id}")
-    public  ResponseEntity<ApiResponse> updatePerson(@PathVariable Long id, @RequestBody Person updatePerson){
-        if(personRepository.existsById(id)){
-            updatePerson.setId(id);
+    @PutMapping("/{user_id}")
+    public  ResponseEntity<ApiResponse> updatePerson(@PathVariable Long user_id, @RequestBody Person updatePerson){
+        if(personRepository.existsById(user_id)){
+            updatePerson.setId(user_id);
             Person updatedPerson = personRepository.save(updatePerson);
             ApiResponse response = new ApiResponse();
             response.setMessage("User updated successfully");
@@ -84,10 +84,10 @@ if(personService.findPersonByName(person) == null){
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deletePerson(@PathVariable Long id){
-        if(personRepository.existsById(id)){
-            personRepository.deleteById(id);
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity<ApiResponse> deletePerson(@PathVariable Long user_id){
+        if(personRepository.existsById(user_id)){
+            personRepository.deleteById(user_id);
             ApiResponse response = new ApiResponse();
             response.setMessage("User deleted successfully");
             response.setStatusCode(HttpStatus.OK.value());
