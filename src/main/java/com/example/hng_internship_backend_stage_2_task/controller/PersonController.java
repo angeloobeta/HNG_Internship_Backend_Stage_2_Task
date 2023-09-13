@@ -38,7 +38,7 @@ if(personService.findPersonByName(person) == null){
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setTime(LocalDateTime.now());
 //        person = personRepository.findById(id).orElse(null);
-        response.setUserId(personService.findPersonByName(person).getId());
+        response.setId(personService.findPersonByName(person).getId());
 
 
 
@@ -50,7 +50,13 @@ if(personService.findPersonByName(person) == null){
         Person person = personRepository.findById(user_id).orElse(null);
 
         if(person != null){
-            return ResponseEntity.ok(person);
+            ApiResponse response = new  ApiResponse();
+            response.setMessage(person.getName());
+            response.setTime(LocalDateTime.now());
+            response.setId(user_id);
+            response.setStatusCode(HttpStatus.OK.value());
+            ;
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }else{
             throw new PersonErrorException("User doesn't exist by that Id");
 //            ApiResponse response = new ApiResponse();
@@ -62,6 +68,7 @@ if(personService.findPersonByName(person) == null){
         }
     }
 
+
     @PutMapping("/{user_id}")
     public  ResponseEntity<ApiResponse> updatePerson(@PathVariable Long user_id, @RequestBody Person updatePerson){
         if(personRepository.existsById(user_id)){
@@ -71,7 +78,7 @@ if(personService.findPersonByName(person) == null){
             response.setMessage("User updated successfully");
             response.setStatusCode(HttpStatus.CREATED.value());
             response.setTime(LocalDateTime.now());
-            response.setUserId(updatedPerson.getId());
+            response.setId(updatedPerson.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }else{
             throw new PersonErrorException("User doesn't exist by that Id");
